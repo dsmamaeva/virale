@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вирал за 5 минут</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark:    #1C1C1C;
+      --cream:   #F2EDE4;
+      --gold:    #A69921;
+      --rust:    #8F310D;
+      --gold-bg: #F0EAC0;
+      --rust-bg: #F5DDD5;
+      --muted:   #6B6150;
+      --gold-border: rgba(166,153,33,0.28);
+      --cream-dim: rgba(242,237,228,0.70);
+      --cream-faint: rgba(242,237,228,0.45);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--dark);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== LAYOUT WRAPPER ===== */
+    .page {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    /* ===== EYEBROW LABEL ===== */
+    .eyebrow {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .eyebrow--rust  { color: var(--rust); }
+    .eyebrow--gold  { color: var(--gold); }
+    .eyebrow--cream { color: var(--cream-faint); }
+
+    /* ===== SECTION SHARED ===== */
+    .section {
+      padding: 64px 40px;
+    }
+
+    .section__title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.25;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .section__desc {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      max-width: 580px;
+      margin-bottom: 36px;
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-border) 0%, transparent 100%);
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    .section-hero {
+      background: var(--dark);
+      padding: 72px 40px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative blobs */
+    .section-hero::before {
+      content: '';
+      position: absolute;
+      width: 240px; height: 240px;
+      background: var(--rust);
+      opacity: 0.14;
+      border-radius: 60px;
+      top: -60px; right: -30px;
+    }
+    .section-hero::after {
+      content: '';
+      position: absolute;
+      width: 180px; height: 180px;
+      background: var(--gold);
+      opacity: 0.10;
+      border-radius: 50px;
+      bottom: -50px; left: -30px;
+    }
+
+    .hero__subtitle {
+      color: var(--cream-faint);
+      font-size: 13.5px;
+      line-height: 1.6;
+      max-width: 500px;
+      margin: 0 auto 28px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero__title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: clamp(30px, 5vw, 42px);
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 40px;
+    }
+    .hero__title span:first-child { color: var(--cream); }
+    .hero__title span:last-child  { color: var(--gold); }
+
+    .hero__stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 36px;
+    }
+
+    .stat-card {
+      background: rgba(242,237,228,0.06);
+      border: 1px solid var(--gold-border);
+      border-radius: 12px;
+      padding: 20px 16px 18px;
+      text-align: center;
+    }
+    .stat-card__num {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-card__label {
+      font-size: 11.5px;
+      color: var(--cream-faint);
+      line-height: 1.4;
+    }
+
+    .hero__author {
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+    }
+    .hero__author span:first-child { color: rgba(242,237,228,0.35); }
+    .hero__author span:last-child  { color: var(--gold); font-weight: 500; }
+
+    /* =============================================
+       WHY — «Зачем это нужно»
+    ============================================= */
+    .section-why {
+      background: var(--cream);
+    }
+
+    .why-box {
+      background: var(--dark);
+      border-radius: 16px;
+      padding: 28px 32px 32px;
+    }
+
+    .why-box__lead {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .why-box__lead span:first-child { color: var(--cream); }
+    .why-box__lead span:last-child  { color: var(--gold); }
+
+    .why-box__body {
+      color: rgba(242,237,228,0.72);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* =============================================
+       STEPS — «Как активировать Virale»
+    ============================================= */
+    .section-steps {
+      background: #FDFAF6;
+      border-top: 1px solid var(--gold-border);
+      border-bottom: 1px solid var(--gold-border);
+    }
+
+    .steps-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .step-card {
+      border: 1px solid var(--gold-border);
+      border-radius: 14px;
+      background: #fff;
+      padding: 22px 22px 22px 22px;
+    }
+
+    .step-card__head {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      background: var(--gold-bg);
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Unbounded', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--dark);
+      line-height: 1;
+    }
+
+    .step-card__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      padding-top: 8px;
+      line-height: 1.35;
+    }
+
+    .step-card__desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.65;
+      padding-left: 56px;
+    }
+
+    .step-note {
+      margin-top: 12px;
+      margin-left: 56px;
+      border-radius: 0 8px 8px 0;
+      border-left: 3px solid;
+      padding: 10px 14px;
+      font-size: 12.5px;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .step-note--gold {
+      background: var(--gold-bg);
+      border-color: var(--gold);
+      color: #6B5B00;
+    }
+    .step-note--rust {
+      background: var(--rust-bg);
+      border-color: var(--rust);
+      color: var(--rust);
+    }
+
+    /* =============================================
+       PROMPT SECTIONS
+    ============================================= */
+    .section-prompt1 { background: var(--cream); }
+    .section-prompt2 { background: #FDFAF6; border-top: 1px solid var(--gold-border); }
+
+    .prompt-card {
+      background: var(--dark);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .prompt-card__header {
+      background: var(--rust);
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .prompt-badge {
+      background: rgba(255,255,255,0.15);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .prompt-card__name {
+      color: #fff;
+      font-size: 14.5px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .prompt-card__body {
+      padding: 22px 26px 28px;
+    }
+
+    .prompt-card__hint {
+      font-size: 12px;
+      color: rgba(242,237,228,0.38);
+      margin-bottom: 10px;
+      display: block;
+      letter-spacing: 0.3px;
+    }
+
+    .prompt-text {
+      color: rgba(242,237,228,0.82);
+      font-size: 13px;
+      font-family: 'Inter', sans-serif;
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+
+    /* =============================================
+       OUTCOME BANNER
+    ============================================= */
+    .outcome-banner {
+      margin-top: 32px;
+      background: var(--dark);
+      border: 2px solid var(--gold);
+      border-radius: 16px;
+      padding: 24px 28px;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .outcome-banner__icon {
+      font-size: 28px;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    .outcome-banner__content {}
+
+    .outcome-banner__title {
+      font-family: 'Unbounded', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .outcome-banner__body {
+      font-size: 13px;
+      line-height: 1.65;
+      color: rgba(242,237,228,0.72);
+    }
+    .outcome-banner__body strong {
+      color: var(--cream);
+      font-weight: 600;
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 600px) {
+      .section { padding: 48px 20px; }
+      .section-hero { padding: 56px 20px 48px; }
+      .hero__stats { grid-template-columns: 1fr; gap: 8px; }
+      .step-card__desc,
+      .step-note { padding-left: 0; margin-left: 0; }
+      .prompt-card__body { padding: 18px 18px 22px; }
+      .outcome-banner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ============================================================
+       HERO / ОБЛОЖКА
+  ============================================================ -->
+  <section class="section-hero">
+    <p class="hero__subtitle">
+      Анализ конкурентов с ИИ-помощником внутри ChatPlace — быстро, без перегруза, с конкретным результатом
+    </p>
+    <h1 class="hero__title">
+      <span>Virale</span><span> за 5 минут</span>
+    </h1>
+    <div class="hero__stats">
+      <div class="stat-card">
+        <span class="stat-card__num">3</span>
+        <span class="stat-card__label">промпта для работы</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__num">10</span>
+        <span class="stat-card__label">дней пробного периода</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-card__num">500</span>
+        <span class="stat-card__label">токенов в пробном режиме</span>
+      </div>
+    </div>
+    <p class="hero__author">
+      <span>by </span><span>@dasha_mamaeva_</span>
+    </p>
+  </section>
+
+  <!-- ============================================================
+       ЗАЧЕМ ЭТО НУЖНО
+  ============================================================ -->
+  <section class="section section-why">
+    <span class="eyebrow eyebrow--rust">Зачем это нужно</span>
+    <h2 class="section__title">Virale — это ИИ внутри ChatPlace</h2>
+    <p class="section__desc">
+      Тот самый сервис, через который на рынке СНГ делают кодовые слова в Inst и ИИ-агентов.
+    </p>
+    <div class="why-box">
+      <p class="why-box__lead">
+        <span>За вечер — то, на что обычно уходит </span><span>несколько дней.</span>
+      </p>
+      <p class="why-box__body">
+        Я разбирала Virale на практике. Когда я сажусь за анализ — тону в избытке информации, поэтому могу потратить на это и неделю, и две. Мне было важно понять, как Virale может помочь. Мы справились с анализом конкурентов и внедрением инсайтов в стратегию за один вечер (P.S. ИИ — не панацея! Он — всего лишь помощник, помогающий обработать большой массив данных!)
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================
+       КАК АКТИВИРОВАТЬ VIRALE
+  ============================================================ -->
+  <section class="section section-steps">
+    <span class="eyebrow eyebrow--gold">Подготовка</span>
+    <h2 class="section__title">Как активировать Virale</h2>
+    <p class="section__desc">
+      Пробный период бесплатный, но карту все равно нужно привязать (с нее спишется 1 рубль при подключении пробного периода).
+    </p>
+
+    <div class="steps-list">
+
+      <!-- Шаг 1 -->
+      <div class="step-card">
+        <div class="step-card__head">
+          <div class="step-num">1</div>
+          <div class="step-card__title">Зайди в ChatPlace и открой раздел «Оплата и тарифы»</div>
+        </div>
+        <p class="step-card__desc">
+          Нажми на аватар аккаунта в левом углу — или нажми кнопку «Активировать» прямо на главном экране.
+        </p>
+      </div>
+
+      <!-- Шаг 2 -->
+      <div class="step-card">
+        <div class="step-card__head">
+          <div class="step-num">2</div>
+          <div class="step-card__title">Нажми «Попробовать X дней бесплатно»</div>
+        </div>
+        <p class="step-card__desc">
+          Выбери тариф Pro и перейди к активации. Выбери нужный период — помесячно или на год со скидкой.
+        </p>
+        <div class="step-note step-note--gold">
+          Важно: сразу выбери все нужные инструменты в конструкторе. После активации пробного периода изменить их будет нельзя.
+        </div>
+      </div>
+
+      <!-- Шаг 3 -->
+      <div class="step-card">
+        <div class="step-card__head">
+          <div class="step-num">3</div>
+          <div class="step-card__title">Включи режим Creature и подключи аккаунты</div>
+        </div>
+        <p class="step-card__desc">
+          Если планируешь работать с Instagram, Telegram, TikTok и нейросетью — добавь их сразу. Потяни ползунок и нажми «+».
+        </p>
+        <div class="step-note step-note--rust">
+          Virale с режимом Creature даёт больший функционал, чем режим Pro. Рекомендую подключать первый режим — на пробный период цена (1 рубль) одинаковая.
+        </div>
+      </div>
+
+      <!-- Шаг 4 -->
+      <div class="step-card">
+        <div class="step-card__head">
+          <div class="step-num">4</div>
+          <div class="step-card__title">Привяжи карту и оплати комиссию 1 ₽</div>
+        </div>
+        <p class="step-card__desc">
+          После оплаты подожди 3–5 минут и обнови страницу. Если написано «Pro-план активен» — всё готово.
+        </p>
+        <div class="step-note step-note--rust">
+          Не удаляй карту сразу — без неё сервис работать не будет. Карту можно убрать только при завершении работы.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================
+       ПРОМПТ 1
+  ============================================================ -->
+  <section class="section section-prompt1">
+    <span class="eyebrow eyebrow--rust">Промпт 1</span>
+    <h2 class="section__title">Аудитор — разбор своего аккаунта</h2>
+    <p class="section__desc">
+      Скопируй ссылку на свой профиль и вставь в чат (значок "+" → добавить инстаграм ссылку → аккаунт), вставь промпт. Virale увидит ленту, шапку, хайлайтс — и разберёт всё сам.
+    </p>
+
+    <div class="prompt-card">
+      <div class="prompt-card__header">
+        <span class="prompt-badge">Промпт 1</span>
+        <span class="prompt-card__name">Для аудита собственного Instagram-аккаунта</span>
+      </div>
+      <div class="prompt-card__body">
+        <span class="prompt-card__hint">Вставь в Virale:</span>
+        <div class="prompt-text">Ты — Instagram-аудитор. Проанализируй аккаунт только по видимым данным на экране:
+шапка, аватар, хайлайтс, лента, комментарии. Ничего не додумывай — если данных нет, так и
+скажи. Каждый вывод подтверждай конкретным примером из профиля.
+Цель аудита: [рост / продажи / понять, что не так]
+
+1. Позиционирование
+• Понятно ли за 3 секунды, кто автор, для кого аккаунт и чем он полезен?
+• Работают ли аватар и хайлайтс на цель профиля или выглядят формально?
+• Есть ли визуальная целостность: стиль, цвета, шрифты, узнаваемость?
+• Понятна ли воронка от первого касания до покупки?
+
+2. Контент
+• Какие рубрики и как часто публикуются: оцени по датам видимых постов.
+• Какие форматы преобладают: Reels, карусели, одиночные посты.
+• Есть ли логика в контенте: знакомство → польза → прогрев → продажа.
+• Назови 3 сильных и 3 слабых хука из аккаунта.
+• Визуал: система или хаос? Оцени карточки, читаемость текста, качество подачи.
+
+3. Вовлечённость
+• Посчитай ER по последним 12 постам: (лайки + комментарии) / подписчики.
+• Сравни лайки и комментарии: есть ли живой диалог.
+• Назови посты-выбросы: что зашло, что провалилось, почему.
+• Определи, какой формат даёт лучший отклик.
+
+4. Точки роста
+По каждому этапу выше укажи:
+• что работает, с примером;
+• что мешает росту, с примером;
+• одно действие на ближайшую неделю.
+
+Формат ответа
+1. Вердикт — 2–3 предложения о главной проблеме аккаунта.
+2. Таблица: Этап | Оценка 1–10 | Проблема | Действие.
+3. ТОП-3 действия на неделю.
+4. Что не трогать — что уже работает хорошо.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================
+       ПРОМПТ 2
+  ============================================================ -->
+  <section class="section section-prompt2">
+    <span class="eyebrow eyebrow--rust">Промпт 2</span>
+    <h2 class="section__title">Разведчик — анализ конкурентов</h2>
+    <p class="section__desc">
+      По схеме из первого действия вставь ссылку на аккаунт конкурента, вставь промпт. Virale разберёт, что у него работает — и как адаптировать под тебя.
+    </p>
+
+    <div class="prompt-card">
+      <div class="prompt-card__header">
+        <span class="prompt-badge">Промпт 2</span>
+        <span class="prompt-card__name">Для анализа аккаунта конкурента и адаптации идеи под свой блог</span>
+      </div>
+      <div class="prompt-card__body">
+        <span class="prompt-card__hint">Вставь в Virale:</span>
+        <div class="prompt-text">Ты — аналитик конкурентов для Instagram. Проанализируй аккаунт только по видимым
+данным: шапка, аватар, хайлайтс, лента, комментарии, лайки, посты, рубрики, частота
+публикаций. Ничего не додумывай: если данных нет, так и напиши. Каждый вывод подкрепляй
+конкретным примером из профиля.
+Мой аккаунт: @[твой username]
+Моя цель: [понять стратегию / найти идеи / понять, почему растут быстрее / адаптировать
+под свой блог]
+Моя тема: [кратко о тематике своего блога]
+
+1. Профиль и контент
+• В чем УТП профиля?
+• На какую аудиторию он рассчитан?
+• Что в шапке можно адаптировать под мой блог?
+• Какие форматы преобладают: Reels, карусели, одиночные посты?
+• Какие рубрики ведут аккаунт?
+• Есть ли воронка: знакомство → польза → прогрев → продажа?
+
+2. ТОП-5 постов и хуки
+Найди 5 сильнейших постов по видимым лайкам и комментариям. Для каждого укажи:
+• тему;
+• формат;
+• хук;
+• почему сработало;
+• как это можно адаптировать под мой аккаунт.
+Дополнительно:
+• выпиши 10 лучших хуков и разбей их по типам: провокация, история, контраст,
+вопрос, цифра;
+• предложи 5 адаптаций этих хуков под мою тему.
+
+3. Визуал
+• Какая палитра и стиль фото: живые, студийные, стоковые?
+• Есть ли визуальная система или каждый пост выглядит отдельно?
+• Что из визуала стоит взять мне?
+
+4. Слабые места
+• Какие посты получили слабый отклик и почему?
+• Какие ошибки повторяются?
+• Где я могу сделать лучше, чем этот аккаунт?
+
+5. Метрики и вовлечённость
+• Подписчики: сколько.
+• Средние просмотры/охваты: если видны.
+• Разброс между вирусными и обычными постами.
+• ER примерно по видимым данным.
+• Какие темы чаще комментируют и сохраняют, а какие игнорируют?
+
+6. Быстрые правки
+Дай 3–5 конкретных шагов, которые помогут улучшить охваты и ER.
+
+7. Что взять для моего блога
+Дай 3–5 конкретных идей для адаптации:
+• рубрики;
+• CTA;
+• продуктные идеи;
+• форматы;
+• механики вовлечения.
+
+8. Риски копирования
+Назови 2 вещи, которые не стоит переносить без адаптации.
+
+Формат ответа
+1. Вердикт — 2–3 предложения: в чем сила аккаунта и почему он растёт.
+2. Таблица: 5 постов | тема | хук | почему сработало | адаптация.
+3. План действий — пронумерованный список.
+4. 5 тем с готовыми хуками — под мой блог.
+
+Требования к стилю
+• Пиши кратко и по делу.
+• Каждый пункт — 1–2 предложения.
+• Не делай предположений без данных.
+• Если данных нет — пиши: «данных нет».
+• Только факты и практические рекомендации.</div>
+      </div>
+    </div>
+
+    <div class="outcome-banner">
+      <div class="outcome-banner__icon">💡</div>
+      <div class="outcome-banner__content">
+        <div class="outcome-banner__title">Что получишь на выходе</div>
+        <p class="outcome-banner__body">
+          Не абстрактные советы, а <strong>конкретный пошаговый план</strong> — что исправить первым, что тестировать в ближайшие 7 дней, что внедрять в течение месяца. Всё на основе реальных данных твоего аккаунта и лучших практик конкурентов.
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============================================================
+       ПРОМПТ 3 — финальный
+  ============================================================ -->
+  <section class="section section-prompt3">
+    <span class="eyebrow eyebrow--rust">Промпт 3 — финальный</span>
+    <h2 class="section__title">Синтез: аудит + конкуренты = план</h2>
+    <p class="section__desc">
+      После того как сделан аудит собственного аккаунта и разобраны 3–5 конкурентов — вставь всё в один запрос.
+    </p>
+
+    <div class="prompt-card prompt-card--gold">
+      <div class="prompt-card__header prompt-card__header--gold">
+        <span class="prompt-badge">Промпт 3</span>
+        <span class="prompt-card__name">Для связки аудита своего аккаунта и анализа конкурентов</span>
+      </div>
+      <div class="prompt-card__body prompt-card__body--gold">
+        <span class="prompt-card__hint prompt-card__hint--gold">Вставь в Virale:</span>
+        <div class="prompt-text prompt-text--dark">У меня уже есть:
+1. аудит моего Instagram‑аккаунта;
+2. анализ 3–5 Instagram‑аккаунтов конкурентов.
+Твоя задача — не пересказывать анализы заново, а синтезировать их в конкретный план
+действий.
+
+Входные данные
+• Мой аудит: [вставить сюда]
+• Анализ конкурентов: [вставить сюда 3–5 разборов]
+
+Что нужно сделать
+1. Сравни мой аккаунт с конкурентами по ключевым блокам:
+◦ позиционирование;
+◦ шапка и упаковка;
+◦ визуал;
+◦ рубрики;
+◦ форматы контента;
+◦ хуки;
+◦ вовлечение;
+◦ воронка;
+◦ прогрев к продукту.
+2. Найди:
+◦ 3–5 сильных сторон моего аккаунта;
+◦ 3–5 слабых мест;
+◦ 3–5 лучших идей у конкурентов, которые можно адаптировать под меня;
+◦ 2–3 вещи, которые у конкурентов работают, но мне не подходят.
+3. Составь приоритетный план внедрения:
+◦ что исправить сначала;
+◦ что внедрить в ближайшие 7 дней;
+◦ что тестировать в течение месяца;
+◦ что оставить на потом.
+4. Дай конкретные рекомендации:
+◦ как переписать шапку;
+◦ какие рубрики усилить;
+◦ какие форматы делать чаще;
+◦ какие хуки забирать;
+◦ что убрать или сократить;
+◦ как улучшить вовлечение и прогрев.
+5. Заверши ответ:
+◦ кратким выводом «что делать в первую очередь»;
+◦ списком из 5 конкретных шагов на ближайшую неделю.
+
+Формат ответа
+• Сначала: короткий вердикт в 3–5 предложениях.
+• Затем: таблица сравнения.
+• Потом: план действий по приоритетам.
+• В конце: чек‑лист на 7 дней.
+
+Требования к ответу
+• Не повторяй исходные аудиты.
+• Не давай абстрактных советов.
+• Не предлагай то, что не подтверждается данными.
+• Опирайся только на мой аудит и реальные данные конкурентов.</div>
+      </div>
+    </div>
+
+    <div class="outcome-banner">
+      <div class="outcome-banner__icon">💡</div>
+      <div class="outcome-banner__content">
+        <div class="outcome-banner__title">Что получишь на выходе</div>
+        <p class="outcome-banner__body">
+          Не абстрактные советы, а <strong>конкретный пошаговый план</strong> — что исправить первым, что тестировать в ближайшие 7 дней, что внедрять в течение месяца. Всё на основе реальных данных твоего аккаунта и лучших практик конкурентов.
+        </p>
+      </div>
+    </div>
+
+  </section>
+
+</div><!-- /page -->
+</body>
+</html>
